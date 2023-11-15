@@ -1,0 +1,124 @@
+public class Main {
+
+    public static void main(String[] args) {
+        int[] tape = new int[5];
+        String code = "+++";
+        runBrainfuckSequence(tape, code, true, true);
+    }
+
+    public static void runBrainfuckSequence(int[] tape, String code, boolean printAsChars, boolean showSteps) {
+        int posInCode = 0;
+        int posInTape = 0;
+
+        while (posInCode < code.length()) {
+            char currentCommand = code.charAt(posInCode);
+
+            switch (currentCommand) {
+                case '>':
+                    tape = addPlaceToTape(tape, false);
+                    posInTape++;
+                    break;
+                case '<':
+                    tape = addPlaceToTape(tape, true);
+                    posInTape--;
+                    break;
+                case '+':
+                    tape[posInTape]++;
+                    break;
+                case '-':
+                    tape[posInTape]--;
+                    break;
+                case '.':
+                    if (printAsChars) {
+                        System.out.print((char) tape[posInTape]);
+                    } else {
+                        System.out.print(tape[posInTape] + " ");
+                    }
+                    break;
+                case ',':
+                    tape[posInTape] = readCharFromConsole();
+                    break;
+                case '[':
+                    if (tape[posInTape] == 0) {
+                        int loopDepth = 1;
+                        while (loopDepth > 0) {
+                            posInCode++;
+                            char c = code.charAt(posInCode);
+                            if (c == '[') {
+                                loopDepth++;
+                            } else if (c == ']') {
+                                loopDepth--;
+                            }
+                        }
+                    }
+                    break;
+                case ']':
+                    if (tape[posInTape] != 0) {
+                        int loopDepth = 1;
+                        while (loopDepth > 0) {
+                            posInCode--;
+                            char c = code.charAt(posInCode);
+                            if (c == ']') {
+                                loopDepth++;
+                            } else if (c == '[') {
+                                loopDepth--;
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            if (showSteps) {
+                prettyPrintCode(tape, code, posInCode, posInTape);
+            }
+
+            posInCode++;
+        }
+    }
+
+    public static int[] addPlaceToTape(int[] oldTape, boolean inFront) {
+        int[] newTape = new int[oldTape.length + 1];
+        if (inFront) {
+            for (int i = 0; i < oldTape.length; i++) {
+                newTape[i + 1] = oldTape[i];
+            }
+        } else {
+            for (int i = 0; i < oldTape.length; i++) {
+                newTape[i] = oldTape[i];
+            }
+        }
+        return newTape;
+    }
+
+    public static void prettyPrintCode(int[] tape, String code, int posInCode, int posInTape) {
+        System.out.print("Step " + posInCode + ":\t");
+        System.out.print("tape: " + arrayToString(tape) + ",\t");
+        System.out.println("instruction: " + code.charAt(posInCode));
+        for (int i = 0; i < posInCode; i++) {
+            System.out.print(" ");
+        }
+        System.out.print("\t\t\t   ");
+        System.out.println("^");
+    }
+
+    public static int readCharFromConsole() {
+        System.out.print("Enter a character: ");
+        try {
+            return System.in.read();
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Error reading from console.", e);
+        }
+    }
+
+    public static String arrayToString(int[] arr) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]);
+            if (i < arr.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+}
