@@ -1,0 +1,41 @@
+#Reverse of a Number in Java
+public static int reverse(int num) {
+    int reverse = 0;
+    while (num != 0) {
+        reverse = reverse * 10 + num % 10;
+        num /= 10;
+    }
+    return reverse;
+}
+
+#Program to count digits in an integer
+
+public class GFG { 
+  
+    static int countDigit(long n) 
+    { 
+        int count = 0; 
+        while (n != 0) { 
+            n = n / 10; 
+            ++count; 
+        } 
+        return count; 
+    }
+
+#USING STRINGS
+
+import java.util.*; 
+public class GFG { 
+  
+    // To count the no. of digits in a number 
+    static void count_digits(int n) 
+    { 
+        // converting number to string using 
+        // to_string in C++ 
+        String num = Integer.toString(n); 
+  
+        // calculate the size of string 
+  
+        System.out.println(+num.length()); 
+    } 
+
