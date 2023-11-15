@@ -1,0 +1,24 @@
+// Print using nested loops
+        System.out.println("Using nested loops:");
+        for (int i = 0; i < twoDArray.length; i++) {
+            for (int j = 0; j < twoDArray[i].length; j++) {
+                System.out.print(twoDArray[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        // Print using Arrays.deepToString()
+        System.out.println("\nUsing Arrays.deepToString():");
+        System.out.println(Arrays.deepToString(twoDArray));
+    }
+}
+Output:
+
+
+Using nested loops:
+1 2 3 
+4 5 6 
+7 8 9 
+
+Using Arrays.deepToString():
+[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
